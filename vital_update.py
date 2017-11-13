@@ -3,6 +3,7 @@
 import parser
 import util
 
+import difflib
 import urllib.parse
 import urllib.request
 
@@ -83,8 +84,9 @@ def update_link(pagename, session, token, target_level,
         if subpage:
             block.set_param("subpage", subpage)
         new_content = t.parsed_data.wiki()
-        print("Old: " + base_content)
-        print("New: " + new_content)
+        print(pagename)
+        print(" ".join(difflib.ndiff(base_content.splitlines(keepends=True),
+                                     new_content.splitlines(keepends=True))))
         # util.edit(pagename, session, token, base_ts, new_content)
         return
 
@@ -112,8 +114,9 @@ def update_link(pagename, session, token, target_level,
         t.parsed_data.sub_blocks.append(vital_block)
 
     new_content = t.parsed_data.wiki()
-    print("Old: " + base_content)
-    print("New: " + new_content)
+    print(pagename)
+    print(" ".join(difflib.ndiff(base_content.splitlines(keepends=True),
+                                 new_content.splitlines(keepends=True))))
     # util.edit(pagename, session, token, base_ts, new_content)
 
 
@@ -186,10 +189,6 @@ def update_level4_cat(category, session=None, token=None):
 
     extra = current - level4_talk_pages_for_cat
     missing = level4_talk_pages_for_cat - current
-    print("Category", category)
-    print(len(extra), "Extra: ", extra)
-    print(len(missing), "Missing: ", missing)
-    return
     for link in missing:
         subpage = subpage_param_for_cat[category] if category in subpage_param_for_cat else None
         update_link(link, session, token, target_level=4,

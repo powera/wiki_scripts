@@ -588,7 +588,7 @@ class BoldItalicBlock(WikiBlock):
 
 class CommentBlock(ParseBlock):
     def wiki(self):
-        return ""
+        return "".join([str(x) for x in self.sub_blocks])
     def wigfmt(self):
         return ""
     def to_text(self):
