@@ -3,7 +3,6 @@
 import parser
 import util
 
-import difflib
 import urllib.parse
 import urllib.request
 
@@ -84,10 +83,7 @@ def update_link(pagename, session, token, target_level,
         if subpage:
             block.set_param("subpage", subpage)
         new_content = t.parsed_data.wiki()
-        print(pagename)
-        print(" ".join(difflib.ndiff(base_content.splitlines(keepends=True),
-                                     new_content.splitlines(keepends=True))))
-        # util.edit(pagename, session, token, base_ts, new_content)
+        util.edit(pagename, session, token, base_ts, new_content, old_content=base_content)
         return
 
     vital_block = make_template("Vital article", params={
@@ -117,10 +113,7 @@ def update_link(pagename, session, token, target_level,
         t.parsed_data.sub_blocks.append(vital_block)
 
     new_content = t.parsed_data.wiki()
-    print(pagename)
-    print(" ".join(difflib.ndiff(base_content.splitlines(keepends=True),
-                                 new_content.splitlines(keepends=True))))
-    # util.edit(pagename, session, token, base_ts, new_content)
+    util.edit(pagename, session, token, base_ts, new_content, old_content=base_content)
 
 
 def remove_link(pagename, session, token):

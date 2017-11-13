@@ -2,8 +2,8 @@
 
 import parser
 
+import difflib
 import requests
-
 import urllib.parse
 import urllib.request
 
@@ -100,7 +100,14 @@ def read_for_edit(pagename, session, token):
 
     return base_ts, base_content
 
-def edit(pagename, session, token, base_ts, new_content):
+def edit(pagename, session, token, base_ts, new_content, old_content=None):
+    if old_content:
+        print(pagename)
+        print(" ".join(difflib.ndiff(old_content.splitlines(keepends=True),
+                                     new_content.splitlines(keepends=True))))
+        print("Confirm edit?  (Y/n)")
+        if input() != "Y":
+            print("not confirmed, skipping")
     summary = 'Vital article categorization.'
     # save the edit
     if False:
