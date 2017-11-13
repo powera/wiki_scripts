@@ -99,16 +99,19 @@ def update_link(pagename, session, token, target_level,
         parent.sub_blocks.append(parser.TextBlock("\n"))
         parent.sub_blocks.append(vital_block)
         parent.sub_blocks.append(parser.TextBlock("\n"))
+        parent.parse()
     elif t.parsed_data.has_template_of_kind("WikiProjectBannerShell"):
         parent = t.parsed_data.get_first_template_of_kind("WikiProjectBannerShell")
         parent.sub_blocks.append(parser.TextBlock("\n"))
         parent.sub_blocks.append(vital_block)
         parent.sub_blocks.append(parser.TextBlock("\n"))
+        parent.parse()
     elif t.parsed_data.has_template_of_kind("Banner holder"):
         parent = t.parsed_data.get_first_template_of_kind("Banner holder")
         parent.sub_blocks.append(parser.TextBlock("\n"))
         parent.sub_blocks.append(vital_block)
         parent.sub_blocks.append(parser.TextBlock("\n"))
+        parent.parse()
     else:
         t.parsed_data.sub_blocks.append(parser.DebugBlock("\n"))
         t.parsed_data.sub_blocks.append(vital_block)
