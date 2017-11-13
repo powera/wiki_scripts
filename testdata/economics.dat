@@ -1,0 +1,40 @@
+{{Skip to talk}}
+{{Talk header}}
+{{Vital article|level=3|topic=Society|class=B}}
+{{Article history|action1=RBP
+|action1date=January 19,2004
+|action1link=Wikipedia:Archive/Refreshing_brilliant_prose_-_People_and_culture
+|action1result=kept
+|action1oldid=2804446
+|action2=FAR
+|action2date=April 21,2006
+|action2link=Wikipedia:Featured article removal candidates/Economics
+|action2result=demoted
+|action2oldid=49368028
+|action3=GAN
+|action3date=September 21, 2007
+|action3link=Talk:Economics/Archive 2#Failed .22good article.22 nomination
+|action3result=Failed
+|action3oldid=159302341
+|currentstatus=FFA
+|maindate=August 3,2004
+}}
+{{WikiProjectBannerShell|1=
+{{WikiProject Business|class=B|importance=Top}}
+{{WikiProject Economics|class=B|importance=Top}}
+{{WikiProject Finance|class=B|importance=High}}
+{{WP1.0|v0.5=pass|core=yes|class=B|category=Socsci|VA=yes|WPCD=yes|importance=top}}
+{{dashboard.wikiedu.org assignment | course = Wikipedia:Wiki_Ed/Hunter_College/Historical_Introduction_to_American_Government_(Fall_2016) | reviewers = [[User:Tleung13|Tleung13]], [[User:Antnagikian|Antnagikian]] }}
+}}
+{{British English Oxford spelling}}
+{{IEP assignment|course=Wikipedia:India_Education_Program/Courses/Fall_2011/Macroeconomics|university=Symbiosis School of Economics|term=2011 Q3}}
+{{auto archiving notice|bot=lowercase sigmabot III|age=3|units=months}}
+{{User:MiszaBot/config
+|archiveheader = {{aan}}
+|maxarchivesize = 100K
+|counter = 7
+|minthreadsleft = 5
+|algo = old(90d)
+|archive = Talk:Economics/Archive %(counter)d
+}}{{User:HBC Archive Indexerbot/OptIn|target=Talk:Economics/Archive index|mask=Talk:Economics/Archive <#>|leading_zeros=0|indexhere=yes}}
+

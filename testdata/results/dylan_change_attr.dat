@@ -1,0 +1,69 @@
+{{Talk header}}
+{{Article history
+|action1=FAC
+|action1date=20:52, 8 October 2003
+|action1link=Wikipedia:Featured article candidates/Bob Dylan
+|action1result=promoted
+|action1oldid=1543023
+|action2=FAR
+|action2date=19:20, 12 August 2005
+|action2link=Wikipedia:Featured article review/Bob Dylan/archive1
+|action2result=kept
+|action2oldid=20869889
+|action3=FAR
+|action3date=16:09, 7 September 2006
+|action3link=Wikipedia:Featured article review/Bob Dylan/archive2
+|action3result=kept
+|action3oldid=75095271
+|action4=FAR
+|action4date=13:14, 28 October 2008
+|action4link=Wikipedia:Featured article review/Bob Dylan/archive3
+|action4result=kept
+|action4oldid=248155889
+|maindate=May 17, 2004
+|currentstatus=FA
+
+|itndate=13 October 2016
+|otddate=19 March 2013
+|otdoldid=545449299
+|otd2date=19 March 2016
+|otd2oldid=710494187
+}}
+{{WikiProjectBannerShell|blp=yes|collapsed=yes|1=
+{{WikiProject Biography|living=yes|class=FA|musician-priority=Top|musician-work-group=yes|listas=Dylan, Bob}}
+{{WikiProject Bob Dylan|class=FA|importance=Top}}
+{{WikiProject Religion|class=FA|importance=mid|Interfaith=yes|InterfaithImp=low}}
+{{WikiProject Rock music|class=FA|importance=top}}
+{{WikiProject Roots music|class=FA|importance=High}}
+{{WikiProject United States|class=FA|importance=mid|USMusic=yes|USMusic-importance=High|portal1-name=United States|portal1-link=Selected culture biography/3}}
+{{WikiProject Minnesota|class=FA|importance=Mid}}
+{{WikiProject Jewish culture|class=FA|importance=high}}
+{{WikiProject Christian music|class=FA|importance=Low}}{{WP1.0|v0.5=pass|class=FA|category=Arts}}
+}}
+{{banner holder|collapsed=yes|
+{{External peer review
+| date = October 24, 2005
+| org = The Guardian
+| url = http://www.guardian.co.uk/technology/2005/oct/24/comment.newmedia
+| comment = It was rated 8/10.
+| small=no}}
+{{Minnesota Portal Selected Biography|July 2007|small=no}}
+{{User:MiszaBot/config
+|archiveheader = {{tan}}
+|maxarchivesize = 250K
+|counter = 10
+|algo = old(30d)
+|archive = Talk:Bob Dylan/Archive %(counter)d
+}}
+{{Auto archiving notice|bot=MiszaBot|age=30 |units=days}}
+{{User:HBC Archive Indexerbot/OptIn
+|target=/Archive index
+|mask=/Archive <#>
+|leading_zeros=0
+|indexhere=yes}}
+{{Vital article|level=3|topic=Biographies|class=FA}}
+{{Round in circles|search=yes}}
+{{OnThisDay|date1=2017-03-19|oldid1=771156669}}
+{{Friendly search suggestions}}
+}}
+
