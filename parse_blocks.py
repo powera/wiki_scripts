@@ -404,7 +404,7 @@ class TemplateBlock(WikiBlock):
     def __init__(self, *args, **kwargs):
         self._kind = None
         self._kind_was_lowercase = False
-        self._kind_trailing_return = False
+        self._kind_trailing_whitespace = ""
         self.arguments = []
         self.is_parsed = False
         self.rewrite = False
@@ -436,7 +436,7 @@ class TemplateBlock(WikiBlock):
         if self._kind[0] != self._kind[0].upper():
             self._kind_was_lowercase = True
         if len(self._kind) != len(self._kind.rstrip()):
-            self._kind_trailing_return = True
+            self._kind_trailing_whitespace = self._kind[len(self._kind.rstrip()):]
         self._kind = self._kind[0].upper() + self._kind[1:]
         self._kind = self._kind.strip()
         self.arguments = blocks[1:]
@@ -445,7 +445,7 @@ class TemplateBlock(WikiBlock):
         for x in self.arguments:
             if "=" in x:
                 idx = x.index("=")
-                key = "".join(str(xx) for xx in x[:idx])
+                key = "".join(str(xx) for xx in x[:idx]).strip()
                 value = x[idx+1:]
                 self.arg_dict[str(key)] = value
             else:
@@ -514,8 +514,7 @@ class TemplateBlock(WikiBlock):
             out += self._kind[0].lower() + self._kind[1:]
         else:
             out += self._kind
-        if self._kind_trailing_return:
-            out += "\n"
+        out += self._kind_trailing_whitespace
         if self.rewrite:
             # Use arg_dict
             for key, value in self.arg_dict.items():

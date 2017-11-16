@@ -100,16 +100,17 @@ def read_for_edit(pagename, session, token):
 
     return base_ts, base_content
 
-def edit(pagename, session, token, base_ts, new_content, old_content=None):
+def edit(pagename, session, token, base_ts, message, new_content, old_content=None):
     api_url = 'https://en.wikipedia.org/w/api.php'
     if old_content:
         print(pagename)
+        print("Commit message: ", message)
         print(" ".join(difflib.ndiff(old_content.splitlines(keepends=True),
                                      new_content.splitlines(keepends=True))))
         print("Confirm edit?  (Y/n)")
         if input() != "Y":
             print("not confirmed, skipping")
-    summary = 'Vital article categorization.'
+            return
     # save the edit
     if True:
         r4 = session.post(api_url, data={
@@ -118,8 +119,9 @@ def edit(pagename, session, token, base_ts, new_content, old_content=None):
             'action': 'edit',
             'assert': 'user',
             'section': 0,
+            'bot': True,
             'text': new_content,
-            'summary': summary,
+            'summary': message,
             'title': pagename,
             'token': token,
         })

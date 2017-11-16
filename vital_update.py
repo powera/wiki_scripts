@@ -44,7 +44,7 @@ def make_template(kind, params):
     sub_blocks = [parser.TextBlock(kind)] + param_text
     return parser.TemplateBlock(sub_blocks=sub_blocks)
 
-def get_article_class(pagename, t):
+def _get_article_class(pagename, t):
     for section in t.parsed_data.sub_blocks:
         if isinstance(section, parser.TemplateBlock) and section.has_param("class"):
             return section.get_param("class").strip()
@@ -56,6 +56,13 @@ def get_article_class(pagename, t):
     # Not found, consider it start class
     print("No class found for " + pagename)
     return "Start"
+
+def get_article_class(pagename, t):
+    """Validate class."""
+    g = _get_article_class(pagename, t)
+    if g in ["Start", "Stub", "GA", "FA"]:
+        return g
+    return g.split()[0].capitalize()
 
 def update_link(pagename, session, token, target_level,
                 topic=None, subpage=None):
@@ -82,7 +89,9 @@ def update_link(pagename, session, token, target_level,
         if subpage:
             block.set_param("subpage", subpage)
         new_content = t.parsed_data.wiki()
-        util.edit(pagename, session, token, base_ts, new_content, old_content=base_content)
+        util.edit(pagename, session, token, base_ts,
+                  message="Updating vital article template",
+                  new_content=new_content, old_content=base_content)
         return
 
     vital_block = make_template("Vital article", params={
@@ -103,6 +112,13 @@ def update_link(pagename, session, token, target_level,
         parent.sub_blocks.append(vital_block)
         parent.sub_blocks.append(parser.TextBlock("\n"))
         parent.parse()
+    elif t.parsed_data.has_template_of_kind("WikiProject banner shell"):
+        parent = t.parsed_data.get_first_template_of_kind("WikiProject banner shell")
+        if parent.sub_blocks[-1] != "\n":
+            parent.sub_blocks.append(parser.TextBlock("\n"))
+        parent.sub_blocks.append(vital_block)
+        parent.sub_blocks.append(parser.TextBlock("\n"))
+        parent.parse()
     elif t.parsed_data.has_template_of_kind("Banner holder"):
         parent = t.parsed_data.get_first_template_of_kind("Banner holder")
         if parent.sub_blocks[-1] != "\n":
@@ -115,7 +131,9 @@ def update_link(pagename, session, token, target_level,
         t.parsed_data.sub_blocks.append(vital_block)
 
     new_content = t.parsed_data.wiki()
-    util.edit(pagename, session, token, base_ts, new_content, old_content=base_content)
+    util.edit(pagename, session, token, base_ts,
+              message="Adding vital article level-%s template" % target_level,
+              new_content=new_content, old_content=base_content)
 
 
 def remove_link(pagename, session, token):
@@ -137,9 +155,9 @@ def remove_link(pagename, session, token):
     t.parsed_data.remove_templates_of_kind("Vital article")
 
     new_content = t.parsed_data.wiki()
-    print("Old: " + base_content)
-    print("New: " + new_content)
-    # util.edit(pagename, session, token, base_ts, new_content)
+    util.edit(pagename, session, token, base_ts,
+              message="Removing vital article template",
+              new_content=new_content, old_content=base_content)
 
 
 ### Update functions.  These get a list of pages which need templates ###
@@ -197,7 +215,7 @@ def update_level4_cat(category, session=None, token=None):
 
 def bulk_update():
     session, token = util.init_session_with_token()
-    for cat in ["People", "History", "Geography", "Arts",
+    for cat in ["History", "Geography", "Arts", "People",
                 "Philosophy and religion", "Everyday life",
                 "Technology", "Mathematics"]:
         update_level4_cat(cat, session, token)
