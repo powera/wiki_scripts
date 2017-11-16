@@ -48,8 +48,7 @@ def get_article_class(pagename, t):
     for section in t.parsed_data.sub_blocks:
         if isinstance(section, parser.TemplateBlock) and section.has_param("class"):
             return section.get_param("class").strip()
-        if (isinstance(section, parser.TemplateBlock) and
-                section.kind() in ("WikiProjectBannerShell", "WPBS", "Banner holder")):
+        if isinstance(section, parser.TemplateBlock):  # too many synonyms of WPBS to list
             for subsection in section.sub_blocks:
                 if (isinstance(subsection, parser.TemplateBlock) and
                         subsection.has_param("class")):

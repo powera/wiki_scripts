@@ -101,6 +101,7 @@ def read_for_edit(pagename, session, token):
     return base_ts, base_content
 
 def edit(pagename, session, token, base_ts, new_content, old_content=None):
+    api_url = 'https://en.wikipedia.org/w/api.php'
     if old_content:
         print(pagename)
         print(" ".join(difflib.ndiff(old_content.splitlines(keepends=True),
@@ -110,7 +111,7 @@ def edit(pagename, session, token, base_ts, new_content, old_content=None):
             print("not confirmed, skipping")
     summary = 'Vital article categorization.'
     # save the edit
-    if False:
+    if True:
         r4 = session.post(api_url, data={
             'basetimestamp': base_ts,
             'format': 'json',
