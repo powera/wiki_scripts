@@ -26,16 +26,12 @@ topic_for_cat = {
     "Geography": "Geography",
     "Arts": "Art",
     "Philosophy and religion": "Philosophy",
-    "Everyday life": "Life",
+    "Everyday life": "Life",  # or "Everyday life"
     "Society and social sciences": "Society",  # or language
-    "Biology and health sciences": "Science",
+    "Biology and health sciences": "Biology",
     "Physical sciences": "Science",
     "Technology": "Technology",
     "Mathematics": "Mathematics",
-}
-subpage_param_for_cat = {
-    "Biology and health sciences": "Biology",
-    "Physical sciences": "Physics",
 }
 
 def make_template(kind, params):
@@ -86,8 +82,7 @@ def update_link(pagename, session, token, target_level,
         block = t.parsed_data.get_first_template_of_kind("Vital article")
         block.set_param("topic", topic)
         block.set_param("level", str(target_level))
-        if subpage:
-            block.set_param("subpage", subpage)
+        block.set_param("subpage", subpage)
         new_content = t.parsed_data.wiki()
         util.edit(pagename, session, token, base_ts,
                   message="Updating vital article template",
@@ -206,7 +201,8 @@ def update_level4_cat(category, session=None, token=None):
     extra = current - level4_talk_pages_for_cat
     missing = level4_talk_pages_for_cat - current
     for link in missing:
-        subpage = subpage_param_for_cat[category] if category in subpage_param_for_cat else None
+        # subpage = subpage_param_for_cat[category] if category in subpage_param_for_cat else None
+        subpage = None
         update_link(link, session, token, target_level=4,
                     topic=topic_for_cat[category], subpage=subpage)
     for link in extra:
@@ -215,7 +211,7 @@ def update_level4_cat(category, session=None, token=None):
 
 def bulk_update():
     session, token = util.init_session_with_token()
-    for cat in ["History", "Geography", "Arts", "People",
+    for cat in ["Technology", "History", "Geography", "Arts", "People",
                 "Philosophy and religion", "Everyday life",
-                "Technology", "Mathematics"]:
+                "Mathematics", "Biology and health sciences", "Physical sciences"][8:]:
         update_level4_cat(cat, session, token)

@@ -465,7 +465,8 @@ class TemplateBlock(WikiBlock):
 
     def set_param(self, key, value):
         if value is None:
-            del self.arg_dict[key]
+            if key in self.arg_dict:
+                del self.arg_dict[key]
         else:
             self.arg_dict[key] = [TextBlock(value)]
         self.rewrite = True
