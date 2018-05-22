@@ -50,6 +50,7 @@ def get_page(title):
     r = urllib.request.urlopen(url)
     return r.read().decode('utf-8')
 
+
 def get_links_from_page(title, sentinel=None):
     p = parser.WikiTokenizer(title)
     page = get_page(title)
@@ -105,10 +106,13 @@ def edit(pagename, session, token, base_ts, message, new_content, old_content=No
     if old_content:
         print(pagename)
         print("Commit message: ", message)
+        if old_content == new_content:
+            print("No diff for %s" % pagename)
+            return
         print(" ".join(difflib.ndiff(old_content.splitlines(keepends=True),
                                      new_content.splitlines(keepends=True))))
         print("Confirm edit?  (Y/n)")
-        if input() != "Y":
+        if input() not in ("Y", "y"):
             print("not confirmed, skipping")
             return
     # save the edit

@@ -34,6 +34,12 @@ topic_for_cat = {
     "Mathematics": "Mathematics",
 }
 
+L5_GEOGRAPHY = {
+    "Physical": "Physical geography",
+    "Countries": "Countries",
+    "Cities": "Cities",
+}
+
 def make_template(kind, params):
     param_text = [parser.TextBlock(k + "=" + v) for (k, v) in params.items() if v is not None]
     param_text = sum([[parser.TextBlock("|"), x] for x in param_text], [])
@@ -66,7 +72,11 @@ def update_link(pagename, session, token, target_level,
         print("Doing nothing for " + pagename)
         return
 
-    base_ts, base_content = util.read_for_edit(pagename, session, token)
+    try:
+        base_ts, base_content = util.read_for_edit(pagename, session, token)
+    except Exception:
+        print("page read failed on %s" % pagename)
+        return
 
     t = parser.WikiTokenizer(pagename)
     t.tokenize(base_content)
@@ -77,7 +87,11 @@ def update_link(pagename, session, token, target_level,
         print("Bot check failed on %s, no action taken." % pagename)
         return
 
-    article_class = get_article_class(pagename, t)
+    try:
+        article_class = get_article_class(pagename, t)
+    except Exception:
+        print("Article class failed on %s" % pagename)
+        return
     if t.parsed_data.has_template_of_kind("Vital article"):
         block = t.parsed_data.get_first_template_of_kind("Vital article")
         block.set_param("topic", topic)
@@ -116,6 +130,13 @@ def update_link(pagename, session, token, target_level,
         parent.parse()
     elif t.parsed_data.has_template_of_kind("Banner holder"):
         parent = t.parsed_data.get_first_template_of_kind("Banner holder")
+        if parent.sub_blocks[-1] != "\n":
+            parent.sub_blocks.append(parser.TextBlock("\n"))
+        parent.sub_blocks.append(vital_block)
+        parent.sub_blocks.append(parser.TextBlock("\n"))
+        parent.parse()
+    elif t.parsed_data.has_template_of_kind("WikiProjectBanners"):
+        parent = t.parsed_data.get_first_template_of_kind("WikiProjectBanners")
         if parent.sub_blocks[-1] != "\n":
             parent.sub_blocks.append(parser.TextBlock("\n"))
         parent.sub_blocks.append(vital_block)
@@ -208,6 +229,33 @@ def update_level4_cat(category, session=None, token=None):
     for link in extra:
         remove_link(link, session, token)
 
+def update_level5_cat(category, subcat=None, *, session=None, token=None):
+    if not session:
+        session, token = util.init_session_with_token()
+    else:
+        assert token  # must pass both
+
+    links4 = util.get_links_from_page(
+        "Wikipedia:Vital articles/Expanded/" + category)
+    links_for_cat = util.get_links_from_page(
+        "Wikipedia:Vital articles/Level/5/" + category + ("/" + subcat if subcat else ""))
+
+    level5_talk_pages_for_cat = set(["Talk:" + x for x in (links_for_cat - links4)])
+
+    # These are "talk" page links.
+    current = util.get_category_members(
+        "Category:Wikipedia level-5 vital articles in " + topic_for_cat[category],
+        session, token)
+
+    extra = current - level5_talk_pages_for_cat
+    missing = level5_talk_pages_for_cat - current
+    for link in missing:
+        # subpage = subpage_param_for_cat[category] if category in subpage_param_for_cat else None
+        subpage = subcat
+        update_link(link, session, token, target_level=5,
+                    topic=topic_for_cat[category], subpage=subpage)
+    for link in extra:
+        remove_link(link, session, token)
 
 def bulk_update():
     session, token = util.init_session_with_token()
