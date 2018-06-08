@@ -210,7 +210,7 @@ def update_level4_cat(category, session=None, token=None):
     links3 = util.get_links_from_page(
         "Wikipedia:Vital articles",
         sentinel="<!-- LIST STARTS HERE -->")
-    links_for_cat = util.get_links_from_page("Wikipedia:Vital articles/Expanded/" + category)
+    links_for_cat = util.get_links_from_page("Wikipedia:Vital articles/Level/4/" + category)
 
     level4_talk_pages_for_cat = set(["Talk:" + x for x in (links_for_cat - links3)])
 
@@ -236,7 +236,7 @@ def update_level5_cat(category, subcat=None, *, session=None, token=None):
         assert token  # must pass both
 
     links4 = util.get_links_from_page(
-        "Wikipedia:Vital articles/Expanded/" + category)
+        "Wikipedia:Vital articles/Level/4/" + category)
     links_for_cat = util.get_links_from_page(
         "Wikipedia:Vital articles/Level/5/" + category + ("/" + subcat if subcat else ""))
 
@@ -261,5 +261,5 @@ def bulk_update():
     session, token = util.init_session_with_token()
     for cat in ["Technology", "History", "Geography", "Arts", "People",
                 "Philosophy and religion", "Everyday life",
-                "Mathematics", "Biology and health sciences", "Physical sciences"][8:]:
+                "Mathematics", "Biology and health sciences", "Physical sciences"]:
         update_level4_cat(cat, session, token)
