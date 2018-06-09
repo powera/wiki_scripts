@@ -107,41 +107,16 @@ def update_link(pagename, session, token, target_level,
         "class": article_class, "topic": topic,
         "level": str(target_level), "subpage": subpage})
 
-    if t.parsed_data.has_template_of_kind("WPBS"):
-        parent = t.parsed_data.get_first_template_of_kind("WPBS")
-        if parent.sub_blocks[-1] != "\n":
+    for wpbs in ["WikiProject Banner Shell", "WPBS", "WikiProjectBannerShell",
+                 "WikiProject banner shell", "Banner holder", "WikiProjectBanners"]:
+        if t.parsed_data.has_template_of_kind(wpbs):
+            parent = t.parsed_data.get_first_template_of_kind(wpbs)
+            if parent.sub_blocks[-1] != "\n":
+                parent.sub_blocks.append(parser.TextBlock("\n"))
+            parent.sub_blocks.append(vital_block)
             parent.sub_blocks.append(parser.TextBlock("\n"))
-        parent.sub_blocks.append(vital_block)
-        parent.sub_blocks.append(parser.TextBlock("\n"))
-        parent.parse()
-    elif t.parsed_data.has_template_of_kind("WikiProjectBannerShell"):
-        parent = t.parsed_data.get_first_template_of_kind("WikiProjectBannerShell")
-        if parent.sub_blocks[-1] != "\n":
-            parent.sub_blocks.append(parser.TextBlock("\n"))
-        parent.sub_blocks.append(vital_block)
-        parent.sub_blocks.append(parser.TextBlock("\n"))
-        parent.parse()
-    elif t.parsed_data.has_template_of_kind("WikiProject banner shell"):
-        parent = t.parsed_data.get_first_template_of_kind("WikiProject banner shell")
-        if parent.sub_blocks[-1] != "\n":
-            parent.sub_blocks.append(parser.TextBlock("\n"))
-        parent.sub_blocks.append(vital_block)
-        parent.sub_blocks.append(parser.TextBlock("\n"))
-        parent.parse()
-    elif t.parsed_data.has_template_of_kind("Banner holder"):
-        parent = t.parsed_data.get_first_template_of_kind("Banner holder")
-        if parent.sub_blocks[-1] != "\n":
-            parent.sub_blocks.append(parser.TextBlock("\n"))
-        parent.sub_blocks.append(vital_block)
-        parent.sub_blocks.append(parser.TextBlock("\n"))
-        parent.parse()
-    elif t.parsed_data.has_template_of_kind("WikiProjectBanners"):
-        parent = t.parsed_data.get_first_template_of_kind("WikiProjectBanners")
-        if parent.sub_blocks[-1] != "\n":
-            parent.sub_blocks.append(parser.TextBlock("\n"))
-        parent.sub_blocks.append(vital_block)
-        parent.sub_blocks.append(parser.TextBlock("\n"))
-        parent.parse()
+            parent.parse()
+            break
     else:
         t.parsed_data.sub_blocks.append(parser.DebugBlock("\n"))
         t.parsed_data.sub_blocks.append(vital_block)
