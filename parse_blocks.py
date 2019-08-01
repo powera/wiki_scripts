@@ -94,7 +94,7 @@ class ParseBlock(object):
         # 
         # TLDR: For LaTex, you should uncomment everything.
         if block == "&nbsp;":
-            self.sub_blocks.append(TextBlock(" "))
+            self.sub_blocks.append(TextBlock("&nbsp;"))
         #elif block in ("<br>", "<br />", "<br/>"):
         #    self.sub_blocks.append(DebugBlock("\n\n"))
         elif isinstance(block, ParseBlock):
@@ -415,6 +415,8 @@ class TemplateBlock(WikiBlock):
                 and self.sub_blocks[-1].is_open):
             return self.sub_blocks[-1].add_block(block)
 
+        if block == "|" and self.sub_blocks and self.sub_blocks[-1] == "|":
+            super().add_block("")
         if block == "}}":
             self.is_open = False
             return
@@ -432,7 +434,7 @@ class TemplateBlock(WikiBlock):
                   if not k]
 
         # We upper-case the first letter, keep the rest as written.
-        self._kind = "".join(str(x) for x in blocks[0])
+        self._kind = "".join(x.wiki() for x in blocks[0])
         if self._kind[0] != self._kind[0].upper():
             self._kind_was_lowercase = True
         if len(self._kind) != len(self._kind.rstrip()):

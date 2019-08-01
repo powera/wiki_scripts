@@ -108,7 +108,8 @@ def update_link(pagename, session, token, target_level,
         "level": str(target_level), "subpage": subpage})
 
     for wpbs in ["WikiProject Banner Shell", "WPBS", "WikiProjectBannerShell",
-                 "WikiProject banner shell", "Banner holder", "WikiProjectBanners"]:
+                 "WikiProject banner shell", "Banner holder", "WikiProjectBanners",
+                 "WikiProject Banners"]:
         if t.parsed_data.has_template_of_kind(wpbs):
             parent = t.parsed_data.get_first_template_of_kind(wpbs)
             if parent.sub_blocks[-1] != "\n":
